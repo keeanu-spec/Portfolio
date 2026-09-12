@@ -1,0 +1,13 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Portafolio interactivo profesional con estilo Vengeance UI",
+  "type": "module",
+  "scripts": {
+    "dev": "bun server.js"
+  },
+  "dependencies": {
+    "animate.css": "^4.1.1",
+    "three": "^0.186.0"
+  }
+}

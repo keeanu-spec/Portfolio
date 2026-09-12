@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keeanu | Portfolio 3D</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+  <!-- Estilos propios -->
+  <link rel="stylesheet" href="src/styles/main.css">
+
+  <!-- Import map oficial para Three.js y complementos JSM -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#000000] text-slate-100 min-h-screen flex flex-col justify-between relative overflow-hidden selection:bg-white selection:text-black">
+
+  <!-- Fondo Cósmico y Ondas Vectoriales (Stars & Cyber Waves de la Referencia) -->
+  <div class="hero-bg-cosmos">
+    <!-- Capa de ondas vectoriales curvadas de alta definicion (estilo Photo 2) -->
+    <svg class="hero-waves-svg" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="wave-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#915eff" stop-opacity="0.38"/>
+          <stop offset="40%" stop-color="#6366f1" stop-opacity="0.2"/>
+          <stop offset="100%" stop-color="#030014" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="wave-grad-2" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#c084fc" stop-opacity="0.28"/>
+          <stop offset="50%" stop-color="#3b82f6" stop-opacity="0.12"/>
+          <stop offset="100%" stop-color="#030014" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <!-- Ondas matematicas continuas sinusoidales -->
+      <path d="M-100,100 C300,30 620,300 960,160 C1260,40 1420,260 1620,200" stroke="url(#wave-grad-1)" stroke-width="1.8" fill="none"/>
+      <path d="M-80,160 C320,90 640,360 980,220 C1280,100 1440,320 1640,260" stroke="url(#wave-grad-1)" stroke-width="1.4" fill="none"/>
+      <path d="M-60,220 C340,150 660,420 1000,280 C1300,160 1460,380 1660,320" stroke="url(#wave-grad-1)" stroke-width="1.1" fill="none"/>
+      <path d="M-40,280 C360,210 680,480 1020,340 C1320,220 1480,440 1680,380" stroke="url(#wave-grad-1)" stroke-width="0.9" fill="none"/>
+      <path d="M-20,340 C380,270 700,540 1040,400 C1340,280 1500,500 1700,440" stroke="url(#wave-grad-1)" stroke-width="0.7" fill="none"/>
+      <path d="M0,400 C400,330 720,600 1060,460 C1360,340 1520,560 1720,500" stroke="url(#wave-grad-2)" stroke-width="0.7" fill="none"/>
+      <path d="M20,460 C420,390 740,660 1080,520 C1380,400 1540,620 1740,560" stroke="url(#wave-grad-2)" stroke-width="0.6" fill="none"/>
+    </svg>
+
+    <!-- Canvas de campo de estrellas y partículas flotantes (Stars Background) -->
+    <canvas id="stars-canvas" class="stars-bg-canvas"></canvas>
+
+    <!-- Halos de nebulosa sutiles (Violeta y Cian) -->
+    <div class="nebula-ambient-glow nebula-glow-violet"></div>
+    <div class="nebula-ambient-glow nebula-glow-cyan"></div>
+  </div>
+
+  <!-- Header 1.5x en negro puro con lineas blueprint a pantalla completa y botones Hover Border Gradient -->
+  <header class="blueprint-header-large">
+    <div class="w-full px-6 sm:px-12 lg:px-16 xl:px-20 h-24 sm:h-28 flex items-center justify-between relative">
+      
+      <!-- Cruceta tecnica esquina izquierda -->
+      <span class="blueprint-cross absolute left-4 top-3">+</span>
+
+      <!-- Logotipo e Identidad -->
+      <a href="#inicio" class="flex items-center gap-4 group text-decoration-none">
+        <div class="w-12 h-12 rounded-xl border border-white/20 bg-black flex items-center justify-center group-hover:border-white/60 group-hover:bg-zinc-950 transition-all duration-300 shadow-lg shadow-black/80">
+          <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+            <path d="M12 22V12"/>
+            <path d="M22 7v10"/>
+            <path d="M2 7v10"/>
+            <circle cx="12" cy="7" r="0.8" fill="white"/>
+            <circle cx="7" cy="14.5" r="0.8" fill="white"/>
+            <circle cx="17" cy="14.5" r="0.8" fill="white"/>
+          </svg>
+        </div>
+        <div class="flex items-center gap-2.5">
+          <span class="font-bold text-white tracking-tight text-xl sm:text-2xl">Keeanu</span>
+          <span class="text-xs font-mono text-slate-400 px-2.5 py-1 rounded border border-white/15 bg-black">DEV</span>
+        </div>
+      </a>
+
+      <!-- Botones de Navegacion (Hover Border Gradient) -->
+      <nav class="flex items-center gap-3 sm:gap-5">
+        <a href="#about" class="hover-border-gradient-btn">
+          <span class="hover-border-gradient-inner">About</span>
+        </a>
+        <a href="#work" class="hover-border-gradient-btn">
+          <span class="hover-border-gradient-inner">Work</span>
+        </a>
+        <a href="#contact" class="hover-border-gradient-btn">
+          <span class="hover-border-gradient-inner">Contact</span>
+        </a>
+      </nav>
+
+      <!-- Cruceta tecnica esquina derecha -->
+      <span class="blueprint-cross absolute right-4 top-3">+</span>
+
+    </div>
+
+    <!-- Linea de haz de luz continua en el borde inferior -->
+    <div class="border-beam-line"></div>
+  </header>
+
+  <!-- Escenario central: Hero Section con posicionamiento proporcional y setup a la derecha del todo -->
+  <main id="stage-container" class="relative z-10 flex-1 flex items-center w-full pt-12 sm:pt-16 pb-12 min-h-[calc(100vh-5rem)] overflow-x-clip">
+    <div class="hero-widescreen-row w-full max-w-[1440px] mx-auto px-8 sm:px-14 lg:px-20 flex flex-col lg:flex-row items-center justify-between gap-6 -mt-6 sm:-mt-10 lg:-mt-12">
+      
+      <!-- Columna Izquierda: About Me con posicion proporcional centrada-izquierda -->
+      <div class="hero-banner-container max-w-lg lg:max-w-xl flex flex-row items-start gap-4 sm:gap-5 relative z-20 select-none flex-shrink-0 lg:pl-4 xl:pl-8">
+        <!-- Pin y linea de gradiente vertical (JS Mastery Hero Indicator) -->
+        <div class="flex flex-col justify-center items-center mt-2.5 sm:mt-3">
+          <div class="hero-pin-dot"></div>
+          <div class="hero-violet-line"></div>
+        </div>
+
+        <!-- Titulo y presentacion con distribucion equilibrada en dos lineas -->
+        <div>
+          <h1 class="hero-title">
+            Hi, I'm <span class="hero-name-highlight">Keeanu</span>
+          </h1>
+          <p class="hero-subtitle">
+            Desarrollador de software multiplataforma <span class="whitespace-nowrap">(DAM &amp; SMR).</span><br class="hidden sm:block" />
+            Especializado en aplicaciones web interactivas y sistemas.
+          </p>
+        </div>
+      </div>
+
+      <!-- Columna Derecha: Setup 3D recortado por la izquierda y extendido a la derecha del todo -->
+      <div class="canvas-stage-wrapper relative w-full lg:w-[55%] xl:w-[58%] lg:-mr-20 xl:-mr-20 h-[62vh] sm:h-[70vh] min-h-[460px] max-h-[780px] flex items-center justify-end flex-shrink-0">
+        <!-- Resplandor ambiental trasero suave -->
+        <div class="canvas-ambient-glow"></div>
+
+        <!-- Canvas 3D Three.js con aparicion directa y fluida -->
+        <canvas id="three-canvas" class="w-full h-full cursor-grab active:cursor-grabbing relative z-10 opacity-0 transition-opacity duration-300"></canvas>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Componente de Scroll Down en la parte inferior central (Uiverse unlucky-wolverine-36) -->
+  <a href="#about" class="scroll-indicator-container" aria-label="Desplazarse hacia abajo">
+    <div class="scroll-mouse-pill">
+      <div class="scroll-wheel-dot"></div>
+    </div>
+  </a>
+
+  <!-- Script modular con logica Three.js -->
+  <script type="module" src="src/scripts/main.js"></script>
+</body>
+</html>

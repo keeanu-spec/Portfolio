@@ -1,0 +1,20 @@
+# Archivos de control interno (carpeta .internal)
+.internal/
+
+# Dependencias
+node_modules
+.bun
+
+# Despliegue y builds
+.vercel
+dist
+build
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
