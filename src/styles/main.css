@@ -1,0 +1,391 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  --color-bg-base: #000000;
+  --color-border-glow: rgba(255, 255, 255, 0.25);
+  --glow-color: rgba(255, 255, 255, 0.8);
+  --rgb-fan-1: #06b6d4;
+  --rgb-fan-2: #ec4899;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-bg-base);
+  color: #f1f5f9;
+  overflow-x: hidden;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+/* ========================================================
+   FONDO CÓSMICO: ONDAS VECTORIALES Y ESTRELLAS (Photo 2 Reference)
+   Inspirado en el fondo Stars & Hero Pattern de JavaScript Mastery
+   ======================================================== */
+
+.hero-bg-cosmos {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #030014;
+  background-image: 
+    radial-gradient(circle at 15% 25%, rgba(145, 94, 255, 0.1) 0%, transparent 45%),
+    radial-gradient(circle at 85% 65%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+    linear-gradient(180deg, #02000d 0%, #050816 50%, #010108 100%);
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Capa de ondas vectoriales continuas */
+.hero-waves-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+  filter: drop-shadow(0 0 12px rgba(145, 94, 255, 0.25));
+}
+
+/* Canvas de estrellas flotantes */
+.stars-bg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Luces difuminadas tipo nebulosa */
+.nebula-ambient-glow {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(150px);
+  pointer-events: none;
+  opacity: 0.2;
+}
+
+.nebula-glow-violet {
+  width: 550px;
+  height: 550px;
+  top: -80px;
+  left: 10%;
+  background: #915eff;
+}
+
+.nebula-glow-cyan {
+  width: 450px;
+  height: 450px;
+  bottom: 0px;
+  right: 12%;
+  background: #06b6d4;
+  opacity: 0.14;
+}
+
+/* ========================================================
+   HEADER 1.5x EN NEGRO PURO PROFUNDO CON LINEAS DE DADOS
+   ======================================================== */
+
+.blueprint-header-large {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  background-color: #000000;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95);
+}
+
+/* Linea de haz de luz continua en el borde inferior (Border Beam) */
+.border-beam-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.95) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: borderBeamAnimation 5s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes borderBeamAnimation {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Crucetas geometricas tecnicas en las esquinas */
+.blueprint-cross {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.45);
+  user-select: none;
+}
+
+/* ========================================================
+   COMPONENTE REACT UI: HOVER BORDER GRADIENT (Aceternity UI)
+   ======================================================== */
+
+.hover-border-gradient-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.hover-border-gradient-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.12);
+}
+
+.hover-border-gradient-btn::before {
+  content: '';
+  position: absolute;
+  top: -150%;
+  left: -150%;
+  width: 400%;
+  height: 400%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 70deg,
+    rgba(255, 255, 255, 0.9) 120deg,
+    rgba(200, 220, 255, 0.4) 150deg,
+    transparent 180deg,
+    transparent 360deg
+  );
+  animation: rotateConicBorder 4s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hover-border-gradient-btn:hover::before {
+  opacity: 1;
+}
+
+@keyframes rotateConicBorder {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.hover-border-gradient-inner {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.6rem 1.4rem;
+  border-radius: 10.5px;
+  background-color: #000000;
+  color: #cbd5e1;
+  font-size: 1.05rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hover-border-gradient-btn:hover .hover-border-gradient-inner {
+  color: #ffffff;
+  background-color: #04060a;
+}
+
+/* ========================================================
+   COMPONENTE HERO ABOUT ME (Pin & Violet Gradient Line)
+   Inspirado en el Hero Header de JavaScript Mastery
+   ======================================================== */
+
+.hero-banner-container {
+  animation: fadeInDown 0.8s ease-out both;
+}
+
+.hero-pin-dot {
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 9999px;
+  background-color: #915eff;
+  box-shadow: 0 0 16px #915eff, 0 0 32px rgba(145, 94, 255, 0.85);
+  flex-shrink: 0;
+}
+
+.hero-violet-line {
+  width: 3px;
+  height: 135px;
+  background: linear-gradient(180deg, #915eff 0%, rgba(145, 94, 255, 0.04) 100%);
+  border-radius: 9999px;
+  margin-top: 6px;
+}
+
+@media (min-width: 640px) {
+  .hero-violet-line {
+    height: 155px;
+  }
+}
+
+.hero-title {
+  color: #ffffff;
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+@media (min-width: 640px) {
+  .hero-title {
+    font-size: 2.85rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-title {
+    font-size: 3.45rem;
+  }
+}
+
+.hero-name-highlight {
+  color: #915eff;
+  text-shadow: 0 0 35px rgba(145, 94, 255, 0.65);
+}
+
+.hero-subtitle {
+  margin-top: 0.9rem;
+  color: #dfd9ff;
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.62;
+  max-width: 640px;
+  letter-spacing: -0.01em;
+}
+
+@media (min-width: 640px) {
+  .hero-subtitle {
+    font-size: 1.18rem;
+  }
+}
+
+/* ========================================================
+   ESCENARIO 3D THREE.JS (Developer Desktop WebGL)
+   ======================================================== */
+
+.canvas-stage-wrapper {
+  position: relative;
+  width: 100%;
+  height: 68vh;
+  min-height: 460px;
+  max-height: 780px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: pan-y;
+}
+
+#three-canvas {
+  width: 100% !important;
+  height: 100% !important;
+  outline: none;
+}
+
+/* Resplandor ambiental trasero suave (Aura detras del escritorio 3D) */
+.canvas-ambient-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  height: 65%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.22) 0%, rgba(147, 51, 234, 0.12) 45%, transparent 75%);
+  filter: blur(70px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+/* ========================================================
+   COMPONENTE DE SCROLL DOWN (Uiverse unlucky-wolverine-36)
+   ======================================================== */
+
+.scroll-indicator-container {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.scroll-mouse-pill {
+  width: 30px;
+  height: 52px;
+  border-radius: 9999px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.scroll-mouse-pill:hover {
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+}
+
+.scroll-wheel-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  animation: scrollWheelAnimation 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes scrollWheelAnimation {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(18px);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateY(22px);
+    opacity: 0;
+  }
+}
